@@ -1,15 +1,33 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Product
+from .models import Product, Category
 
 def index(request):
-    # Pobiera produkt o ID 1
-    single_product = Product.objects.get(pk=1)
+    # Wyciąganie wszystkich kategorii do menu bocznego
+    categories = Category.objects.all()
+    context = {'categories': categories}
+    return render(request, 'base.html', context)
 
-    # Po kategorii: Aby wyświetlić produkty z kategorii o ID 2
-    filtered = Product.objects.filter(category=2)
-
-    # Po producencie: Aby wyświetlić produkty od producenta o ID 3
-    filtered = Product.objects.filter(manufacturer=3)
+def category_view(request, id):
+    # Pobieranie konkretnej kategorii oraz produktów do niej przypisanych
+    specific_category = Category.objects.get(pk=id)
+    category_products = Product.objects.filter(category=specific_category)
+    categories = Category.objects.all()
     
-    return HttpResponse(single_product)
+    context = {
+        'specific_category': specific_category,
+        'category_products': category_products,
+        'categories': categories
+    }
+    return render(request, 'category_product.html', context)
+
+def product_view(request, id):
+    # Pobieranie jednego konkretnego produktu
+    single_product = Product.objects.get(pk=id)
+    categories = Category.objects.all()
+    
+    context = {
+        'single_product': single_product,
+        'categories': categories
+    }
+    return render(request, 'product.html', context)
