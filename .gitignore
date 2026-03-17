@@ -1,0 +1,18 @@
+# Środowisko wirtualne
+venv/
+env/
+
+# Pliki tymczasowe Pythona
+__pycache__/
+*.pyc
+*.pyo
+
+# Lokalna baza danych
+db.sqlite3
+
+# Ustawienia edytora
+.vscode/
+
+
+# Pliki statyczne
+staticfiles/
